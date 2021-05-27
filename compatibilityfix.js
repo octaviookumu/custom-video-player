@@ -19,6 +19,7 @@ $('.audio__slider').roundSlider({
 
 let theVideo = document.querySelector('.slide__audio-player');
 theVideo.volume = 0;
+
 $('.js-audio').addClass('playing');
 
 let initialBars = [...document.querySelectorAll('.bar')];
@@ -179,7 +180,20 @@ function makeBarsGrey() {
 function bigImg() {
     if( $("video").prop('muted') ) {
         $("video").prop('muted', false);
-        theVideo.volume = 1;
+
+        try {
+            theVideo.volume = 1;
+            if ($('.js-audio').find('.slide__audio-player')[0].paused) {
+                console.log("Video forced pause")
+                $('.js-audio').find('.slide__audio-player')[0].pause();
+                $('.js-audio').removeClass('playing');
+                $('.js-audio').addClass('paused');
+            } 
+          }
+          catch(err) {
+            console.log("My error =>", err);
+          }
+
         makeBarsGreen()
     } else {
         $("video").prop('muted', true);
